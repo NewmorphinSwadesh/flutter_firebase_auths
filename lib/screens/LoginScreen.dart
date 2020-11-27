@@ -22,7 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
         phoneNumber: phone,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential credential) async {
-          Navigator.of(context).pop();
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
 
           UserCredential result = await _auth.signInWithCredential(credential);
 
@@ -39,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
             print("Error");
           }
 
-          //This callback would gets called when verification is done auto maticlly
+          //This callback would gets called when verification is done automatically
         },
         verificationFailed: (exception) {
           print(exception);
@@ -155,7 +156,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.all(16),
                   onPressed: () {
                     final phone = _phoneController.text.trim();
-
+                    //print(_phoneController);
+                    print(phone);
                     loginUser(phone, context);
                   },
                   color: Colors.blue,
