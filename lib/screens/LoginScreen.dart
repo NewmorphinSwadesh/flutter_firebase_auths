@@ -19,32 +19,28 @@ class _LoginScreenState extends State<LoginScreen> {
     FirebaseAuth _auth = FirebaseAuth.instance;
 
     _auth.verifyPhoneNumber(
+        //phone number
         phoneNumber: phone,
+        //timeout for sms
         timeout: Duration(seconds: 60),
+        //after verification navigation
         verificationCompleted: (AuthCredential credential) async {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
-
-          UserCredential result = await _auth.signInWithCredential(credential);
-
-          User user = result.user;
-
+          AuthResult result = await _auth.signInWithCredential(credential);
+          FirebaseUser user = result.user;
           if (user != null) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => HomeScreen(
-                          user: user,
-                        )));
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
           } else {
             print("Error");
           }
 
           //This callback would gets called when verification is done automatically
         },
+        //verification failed
         verificationFailed: (exception) {
-          print(exception);
+          return Text('$exception');
         },
+        //code sent to the number
         codeSent: (String verificationId, [int forceResendingToken]) {
           showDialog(
               context: context,
@@ -68,13 +64,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () async {
                         final code = _codeController.text.trim();
                         AuthCredential credential =
-                            PhoneAuthProvider.credential(
+                            PhoneAuthProvider.getCredential(
                                 verificationId: verificationId, smsCode: code);
 
-                        UserCredential result =
+                        AuthResult result =
                             await _auth.signInWithCredential(credential);
 
-                        User user = result.user;
+                        FirebaseUser user = result.user;
 
                         if (user != null) {
                           Navigator.push(
@@ -92,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 );
               });
         },
+        //code Auto Retrieval Timeout
         codeAutoRetrievalTimeout: (String verId) {
           this.verificationId = verId;
         });
@@ -104,12 +101,12 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _phoneController?.dispose();
-    _codeController?.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _phoneController?.dispose();
+  //   _codeController?.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
