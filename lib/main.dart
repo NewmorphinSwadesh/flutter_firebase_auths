@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_auths/screens/LoginScreen.dart';
+import 'package:flutter_firebase_auths/phone_auth/login.dart';
 
 void main() async {
   //WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       //   primarySwatch: Colors.black,
       //   visualDensity: VisualDensity.adaptivePlatformDensity,
       // ),
-      home: LoginScreen(),
+      home: AgreeAndStart(),
     );
   }
 }
