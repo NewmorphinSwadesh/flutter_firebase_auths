@@ -22,12 +22,6 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: 16,
             ),
-            // Text(
-            //   "${user.phoneNumber}",
-            //   style: TextStyle(
-            //     color: Colors.grey,
-            //   ),
-            // ),
             Text('none')
           ],
         ),
